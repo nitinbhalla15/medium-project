@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: Medium-Auth-Server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Medium-DB
+    username:
+    password:
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
