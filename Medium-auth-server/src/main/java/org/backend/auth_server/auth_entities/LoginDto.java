@@ -1,6 +1,8 @@
 package org.backend.auth_server.auth_entities;
 
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LoginDto {
 
+    @NotNull(message = "Username should not be null")
+    @NotBlank(message = "Username should not be blank")
+    @Email(message = "Username should be a proper email address")
     private String username;
+    @NotNull(message = "Username should not be null")
+    @NotBlank(message = "Username should not be blank")
     private String password;
 }

@@ -1,5 +1,6 @@
 package org.backend.blog_server.blog_controller;
 
+import jakarta.validation.Valid;
 import org.backend.auth_server.auth_entities.ResponseDto;
 import org.backend.blog_server.blog_entities.BlogDetails;
 import org.backend.blog_server.blog_service.BlogService;
@@ -18,7 +19,7 @@ public class BlogController {
     private BlogService blogService;
 
     @PostMapping(value = "/postBlog/{user_email}")
-    public ResponseEntity<?> submitBlog(@PathVariable("user_email") String user_email, @RequestBody  BlogDetails blogDetails){
+    public ResponseEntity<?> submitBlog(@PathVariable("user_email") String user_email,@Valid @RequestBody  BlogDetails blogDetails){
         ResponseDto response = ResponseDto.builder().http_status_code(200).resposneBody(blogService.registerBlog(blogDetails,user_email)).message("Blog has been posted successfully").build();
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
@@ -30,7 +31,7 @@ public class BlogController {
     }
 
     @PutMapping(value = "/updateBlog/{blog_id}")
-    public ResponseEntity<?> udpdateBlog(@PathVariable("blog_id") UUID blogId , @RequestBody BlogDetails updatedBlog){
+    public ResponseEntity<?> udpdateBlog(@PathVariable("blog_id") UUID blogId ,@Valid @RequestBody BlogDetails updatedBlog){
         ResponseDto response = ResponseDto.builder().http_status_code(200).resposneBody(blogService.updateBlogDetails(blogId,updatedBlog)).message("Blog details has been updated successfully").build();
         return new ResponseEntity<>(response,HttpStatus.OK);
     }

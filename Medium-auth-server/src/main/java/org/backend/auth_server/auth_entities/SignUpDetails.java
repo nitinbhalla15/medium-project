@@ -33,6 +33,8 @@ public class SignUpDetails implements UserDetails {
     @NotBlank(message = "Last name should not be blank")
     @NotNull(message = "Last name should not be null")
     private String lastName;
+    @NotNull(message = "Email field should not be null")
+    @NotBlank(message = "Email field should not be blank")
     @Email(message = "Email field has to be a valid email id")
     private String email;
     @NotBlank(message = "Password name should not be blank")

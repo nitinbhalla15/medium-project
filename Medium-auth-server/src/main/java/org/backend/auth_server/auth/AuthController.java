@@ -1,9 +1,11 @@
 package org.backend.auth_server.auth;
 
+import jakarta.validation.Valid;
 import org.backend.auth_server.auth_entities.LoginDto;
 import org.backend.auth_server.auth_entities.ResponseDto;
 import org.backend.auth_server.auth_entities.SignUpDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,14 +22,14 @@ public class AuthController {
 
     //Auth Routes -> Sign up and Login
     @PostMapping(value = "/signup")
-    public ResponseEntity<Object> registerUser(@RequestBody SignUpDetails userDetails){
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpDetails userDetails){
         ResponseDto resposne = ResponseDto.builder().http_status_code(200).message("User has been successfully registered")
                 .resposneBody(authService.signupUser(userDetails)).build();
         return new ResponseEntity<>(resposne , HttpStatus.OK);
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Object>  loginUser(@RequestBody LoginDto loginDetails){
+    public ResponseEntity<Object>  loginUser(@Valid @RequestBody LoginDto loginDetails){
         ResponseDto resposne = ResponseDto.builder().http_status_code(200).message("User has been successfully logged in")
                 .resposneBody(authService.loginUser(loginDetails)).build();
         return new ResponseEntity<>(resposne,HttpStatus.OK);
