@@ -1,4 +1,4 @@
-package org.backend.auth_entities;
+package org.backend.auth_server.auth_entities;
 
 
 import jakarta.validation.constraints.NotNull;

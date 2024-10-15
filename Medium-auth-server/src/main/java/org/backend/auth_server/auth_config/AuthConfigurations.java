@@ -1,6 +1,6 @@
-package org.backend.auth_config;
+package org.backend.auth_server.auth_config;
 
-import org.backend.auth_repo.AuthRepository;
+import org.backend.auth_server.auth_repo.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

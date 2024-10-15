@@ -1,6 +1,6 @@
-package org.backend.auth_repo;
+package org.backend.auth_server.auth_repo;
 
-import org.backend.auth_entities.SignUpDetails;
+import org.backend.auth_server.auth_entities.SignUpDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

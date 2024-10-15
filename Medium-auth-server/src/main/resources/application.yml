@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: Medium-Auth-Server
+    name: Medium-Blog-Server
   datasource:
     url: jdbc:postgresql://localhost:5432/Medium-DB
     username:

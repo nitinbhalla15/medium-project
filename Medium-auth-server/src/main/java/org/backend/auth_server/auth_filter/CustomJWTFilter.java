@@ -1,4 +1,4 @@
-package org.backend.auth_filter;
+package org.backend.auth_server.auth_filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,9 +1,6 @@
-package org.backend.auth_entities;
+package org.backend.auth_server.auth_entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.backend.blog_server.blog_entities.BlogDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -40,6 +38,9 @@ public class SignUpDetails implements UserDetails {
     @NotBlank(message = "Password name should not be blank")
     @NotNull(message = "Password name should not be null")
     private String password;
+
+    @OneToMany(mappedBy = "userDetails",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<BlogDetails> blogDetails;
 
 
     @Override

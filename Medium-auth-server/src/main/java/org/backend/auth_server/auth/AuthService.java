@@ -1,10 +1,10 @@
-package org.backend.auth;
+package org.backend.auth_server.auth;
 
 import lombok.extern.slf4j.Slf4j;
-import org.backend.auth_entities.LoginDto;
-import org.backend.auth_entities.SignUpDetails;
-import org.backend.auth_filter.JWTService;
-import org.backend.auth_repo.AuthRepository;
+import org.backend.auth_server.auth_entities.LoginDto;
+import org.backend.auth_server.auth_entities.SignUpDetails;
+import org.backend.auth_server.auth_filter.JWTService;
+import org.backend.auth_server.auth_repo.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

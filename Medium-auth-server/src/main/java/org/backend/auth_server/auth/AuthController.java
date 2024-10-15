@@ -1,9 +1,8 @@
-package org.backend.auth;
+package org.backend.auth_server.auth;
 
-//import jakarta.ws.rs.POST;
-import org.backend.auth_entities.LoginDto;
-import org.backend.auth_entities.ResponseDto;
-import org.backend.auth_entities.SignUpDetails;
+import org.backend.auth_server.auth_entities.LoginDto;
+import org.backend.auth_server.auth_entities.ResponseDto;
+import org.backend.auth_server.auth_entities.SignUpDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
