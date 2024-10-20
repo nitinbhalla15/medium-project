@@ -36,5 +36,13 @@ public class BlogController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+    //like route mapping
+
+
+    //comment route mapping
+
+
+    //get blog by id route
+
 
 }
