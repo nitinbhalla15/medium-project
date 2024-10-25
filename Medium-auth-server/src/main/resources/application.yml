@@ -5,9 +5,9 @@ spring:
   application:
     name: Medium-Blog-Server
   datasource:
-    url: jdbc:postgresql://localhost:5432/Medium-DB
-    username:
-    password:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
