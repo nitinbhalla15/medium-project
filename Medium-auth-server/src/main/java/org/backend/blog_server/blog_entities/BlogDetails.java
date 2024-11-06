@@ -33,14 +33,16 @@ public class BlogDetails {
     @NotNull(message = "BlogDescription should not be null")
     @NotBlank(message = "BlogDescription should not be blank")
     private String blogDescription;
-    private Integer blogLikeCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
     @JsonIgnore
     private SignUpDetails userDetails;
 
-    @OneToMany(mappedBy = "blogDetails")
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "blogDetails")
     private List<BlogComments> blogComments;
+
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "blogDetails")
+    private List<BlogLikes> blogLikes;
 
 }

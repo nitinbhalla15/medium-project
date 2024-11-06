@@ -5,9 +5,15 @@ spring:
   application:
     name: Medium-Blog-Server
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+#         For docker
+#    url: ${SPRING_DATASOURCE_URL}
+#    username: ${SPRING_DATASOURCE_USERNAME}
+#    password: ${SPRING_DATASOURCE_PASSWORD}
+#    driverClassName: org.postgresql.Driverdatasource:
+#         For local
+    url: jdbc:postgresql://localhost:5432/Medium-DB
+    username:
+    password:
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:

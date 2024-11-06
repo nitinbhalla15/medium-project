@@ -1,6 +1,7 @@
 package org.backend.app_exception_handler;
 
 import org.backend.auth_server.auth_entities.ResponseDto;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -42,6 +43,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ResponseDto errorResponse = ResponseDto.builder()
                 .http_status_code(401).resposneBody(errResponse).message("Authentication Failed").build();
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(PSQLException.class)
+    public ResponseEntity<Object> handlePSQLException(PSQLException ex){
+        Map<String,Object> errResponse = new HashMap<>();
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+        errResponse.put("errorList",errors);
+        ResponseDto errorResponse = ResponseDto.builder()
+                .http_status_code(400).resposneBody(errResponse).message("Data Base Exception").build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.ALREADY_REPORTED);
     }
 
 

@@ -31,6 +31,7 @@ public class CustomJWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // check if request is having authorization headers -> if not redirect reuqest to next filter
         log.info("Filtering the request");
+        //For Cookies in request header we will need to parse cookie to get the token
         final String reqHeaders = request.getHeader("Authorization");
         if(reqHeaders==null){
             filterChain.doFilter(request,response);

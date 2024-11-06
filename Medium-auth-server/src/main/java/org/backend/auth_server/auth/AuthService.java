@@ -40,6 +40,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(userDetail.getPassword())).build();
         //saving the user Details in DB
         authRepo.save(encodedUser);
+        // What if the database is down ? -> Error response
         String jwtToken = jwtService.generateToken(encodedUser.getEmail());
         responseObject.put("jwtToken",jwtToken);
         responseObject.put("userEmail",encodedUser.getEmail());

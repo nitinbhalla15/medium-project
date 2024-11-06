@@ -37,12 +37,31 @@ public class BlogController {
     }
 
     //like route mapping
+    @PostMapping(value = "/likePost/{post_id}/{user_id}")
+    public ResponseEntity<?> likePost(@PathVariable("post_id") UUID post_id , @PathVariable("user_id") UUID user_id){
+        ResponseDto response = ResponseDto.builder().http_status_code(200).resposneBody(blogService.likePost(post_id,user_id))
+                .message("Post like Successfully").build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
 
 
     //comment route mapping
+    @PostMapping(value = "/commentPost/{post_id}/{user_id}/{comment}")
+    public ResponseEntity<?> commentPost(@PathVariable("post_id") UUID post_id , @PathVariable("user_id") UUID user_id ,@PathVariable("comment") String comment){
+        ResponseDto respone = ResponseDto.builder().http_status_code(200)
+                .resposneBody(blogService.commentOnPost(post_id,user_id,comment)).message("Comment Posted Successfully").build();
+        return new ResponseEntity<>(respone,HttpStatus.OK);
+    }
 
 
     //get blog by id route
+    @GetMapping(value = "/getBlogById/{post_id}")
+    public ResponseEntity<?> getBlogById(@PathVariable("post_id") UUID post_id){
+        ResponseDto response = ResponseDto.builder().http_status_code(200).resposneBody(blogService.getPostById(post_id))
+                .message("Post fetched successfuly").build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 
 
 }
