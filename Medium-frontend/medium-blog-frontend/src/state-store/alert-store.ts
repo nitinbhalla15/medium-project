@@ -5,7 +5,7 @@ export const isAlert = atom<undefined|boolean>({
     default:undefined
 })
 
-export const alertMessage = atom<undefined|[string]>({
+export const alertMessage = atom<undefined| string[]>({
     key:"alertMessage",
     default:undefined
 })

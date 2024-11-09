@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom"
 
-export default function TopBar({username}:{username:string}) {
+export default function TopBar({ username }: { username: string }) {
     const navigate = useNavigate();
-    return <div className="flex justify-between border-b p-4">
+    return <div className="w-full flex justify-between border-b p-4 gap-2">
         <div className="flex flex-col justify-center text-4xl font-bold">
             Medium.
         </div>
+        <div className="flex flex-col justify-center w-full">
+            <input className="p-4 border-2 rounded-xl" placeholder="Search blogs.."></input>
+        </div>
         <div className="flex justify-center gap-10">
-            <div className="flex flex-col justify-center p-2 rounded-md cursor-pointer hover:text-black text-slate-400" onClick={()=>{
+            <div className="flex flex-col justify-center p-2 rounded-md cursor-pointer hover:text-black text-slate-400" onClick={() => {
                 navigate("/publishPost")
             }}>
                 <div className="flex justify-center gap-2">
@@ -15,9 +18,14 @@ export default function TopBar({username}:{username:string}) {
                     <div className="flex flex-col justify-center ">Write</div>
                 </div>
             </div>
-            <div className="rounded-full bg-black text-white p-2 flex flex-col justify-center cursor-pointer">
+            <div className="rounded-full bg-black text-white p-2 flex flex-col justify-center cursor-pointer" onClick={() => {
+                localStorage.clear();
+                navigate("/signin")
+            }}>
                 {username}
             </div>
         </div>
     </div>
+
+
 }

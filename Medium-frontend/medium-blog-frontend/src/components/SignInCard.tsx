@@ -35,6 +35,7 @@ export default function SignInCard() {
                         }
                         const resposne = await fetch(`${BACKEND_URL}/api/v1/auth/login`, {
                             method: "POST",
+                            // credentials:"include", --> to send cookies
                             headers: {
                                 'Content-Type': "application/json"
                             },
@@ -46,7 +47,7 @@ export default function SignInCard() {
                         if (finalResponse.http_status_code == 200) {
                             const logged_in_user_email = finalResponse.resposneBody.userEmail;
                             localStorage.setItem("logged_in_user_email", logged_in_user_email);
-                            const jwtToken = finalResponse.resposneBody.jwtToken;
+                            const jwtToken = finalResponse.resposneBody.jwtToken; 
                             localStorage.setItem("jwtToken", jwtToken);
                             //alert on page for successfull log in 
                             setIsAlert(true);

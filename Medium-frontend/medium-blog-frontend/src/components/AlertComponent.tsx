@@ -1,4 +1,4 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { alertMessage, isAlert } from "../state-store/alert-store";
 
 export default function AlertComponet({ children }: { children: JSX.Element }) {
@@ -14,11 +14,17 @@ export default function AlertComponet({ children }: { children: JSX.Element }) {
 
 
 function AlertDiv({ isError }: { isError: boolean }) {
-    console.log("Alert div rendered : ", isError);
+    // console.log("Alert div rendered : ", isError);
     const getAlertMessage = useRecoilValue(alertMessage);
+    const setAlert = useSetRecoilState(isAlert);
+    const setAlertMessage = useSetRecoilState(alertMessage);
     return <div className={`absolute text-white p-4 rounded-md ${isError ? 'bg-red-700 top-4 right-4 max-w-md' : 'bg-green-700 bottom-4 right-4'}`}>
-        <div>
-            {(isError) ? "Error !" : "Success"}
+        <div className="flex justify-between">
+            <div className="flex flex-col justify-center">{(isError) ? "Error !" : "Success"}</div>
+            <div className="flex flex-col justify-center cursor-pointer" onClick={() => {
+                setAlert(undefined);
+                setAlertMessage(undefined);
+            }}>x</div>
         </div>
         <div className="my-2">
             {getAlertMessage != undefined && getAlertMessage.map((item: string) => {
