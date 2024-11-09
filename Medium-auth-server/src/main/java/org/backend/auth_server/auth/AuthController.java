@@ -1,6 +1,7 @@
 package org.backend.auth_server.auth;
 
 import jakarta.validation.Valid;
+import org.backend.app_exception_handler.UnidentifiedError;
 import org.backend.auth_server.auth_entities.LoginDto;
 import org.backend.auth_server.auth_entities.ResponseDto;
 import org.backend.auth_server.auth_entities.SignUpDetails;
@@ -22,7 +23,7 @@ public class AuthController {
 
     //Auth Routes -> Sign up and Login
     @PostMapping(value = "/signup")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpDetails userDetails){
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpDetails userDetails) throws UnidentifiedError {
         ResponseDto resposne = ResponseDto.builder().http_status_code(200).message("User has been successfully registered")
                 .resposneBody(authService.signupUser(userDetails)).build();
         return new ResponseEntity<>(resposne , HttpStatus.OK);

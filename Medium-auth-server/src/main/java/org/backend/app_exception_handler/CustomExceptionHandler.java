@@ -56,6 +56,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.ALREADY_REPORTED);
     }
 
+    @ExceptionHandler(UnidentifiedError.class)
+    public ResponseEntity<Object> handleUnidentifiedError(UnidentifiedError ex){
+        Map<String,Object> errResponse = new HashMap<>();
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+        errResponse.put("errorList",errors);
+        ResponseDto errorResponse = ResponseDto.builder()
+                .http_status_code(500).resposneBody(errResponse).message("Internal Server Error").build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 
 }

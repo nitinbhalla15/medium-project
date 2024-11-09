@@ -1,6 +1,8 @@
 package org.backend.blog_server.blog_entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +12,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.backend.auth_server.auth_entities.SignUpDetails;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +38,11 @@ public class BlogDetails {
     @NotBlank(message = "BlogDescription should not be blank")
     private String blogDescription;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    private Date blogDate;
+    private long blogLikeCount;
+    private long blogCommentCount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",referencedColumnName = "user_id")
     @JsonIgnore
     private SignUpDetails userDetails;

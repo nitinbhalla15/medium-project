@@ -5,7 +5,8 @@
     # Step 4 -> downloading dependency from internet with maven in offline mode
     # Step 5 -> Copying src folder to the image
     # Step 6 -> Building the application with maven
-    # Step 7 -> extracting the jar in layer mode -> it will extract the jar in layers : dependency , snapshot-dependency , application , spring-boot-loader
+    # Step 7 -> extracting the jar in layer mode -> it will extract the jar in layers : dependency , snapshot-dependency
+    #, application , spring-boot-loader
 
 FROM maven:3.9.9-eclipse-temurin-21-jammy AS phase_1_maven_build
 
