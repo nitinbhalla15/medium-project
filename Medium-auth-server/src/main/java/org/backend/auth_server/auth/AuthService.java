@@ -46,6 +46,7 @@ public class AuthService {
             responseObject.put("jwtToken", jwtToken);
             responseObject.put("userEmail", encodedUser.getEmail());
             responseObject.put("userId",encodedUser.getUser_id());
+            responseObject.put("userName",encodedUser.getFirstName());
             return responseObject;
         }catch (Exception e){
             log.error("Error while Signing in user");
@@ -65,6 +66,7 @@ public class AuthService {
             responseObject.put("jwtToken",jwtToken);
             responseObject.put("userEmail",loginDetails.getUsername());
             responseObject.put("userId",userInfo.getUser_id());
+            responseObject.put("userName",userInfo.getFirstName());
             return responseObject;
     }
 

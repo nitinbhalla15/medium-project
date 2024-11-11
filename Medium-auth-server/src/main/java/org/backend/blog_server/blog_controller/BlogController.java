@@ -1,6 +1,7 @@
 package org.backend.blog_server.blog_controller;
 
 import jakarta.validation.Valid;
+import jakarta.ws.rs.GET;
 import org.backend.app_exception_handler.UnidentifiedError;
 import org.backend.auth_server.auth_entities.ResponseDto;
 import org.backend.blog_server.blog_dtos.CommentDTO;
@@ -64,6 +65,7 @@ public class BlogController {
 
 
     //get blog by id route
+    //DONE
     @GetMapping(value = "/getBlogById")
     public ResponseEntity<?> getBlogById(@RequestParam("pid") UUID post_id) throws UnidentifiedError {
         ResponseDto response = ResponseDto.builder().http_status_code(200).resposneBody(blogService.getPostById(post_id))
@@ -85,5 +87,11 @@ public class BlogController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-
+    @GetMapping(value = "/searchBlog")
+    public ResponseEntity<?> searchBlogs(@RequestParam("value") String param) throws UnidentifiedError {
+        ResponseDto response = ResponseDto.builder().http_status_code(200)
+                .resposneBody(blogService.fetchBlogSearched(param))
+                .message("Blogs Fetched !").build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 }

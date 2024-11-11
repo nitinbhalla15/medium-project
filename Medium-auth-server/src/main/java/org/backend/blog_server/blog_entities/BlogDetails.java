@@ -31,9 +31,6 @@ public class BlogDetails {
     @NotNull(message = "BlogTitle should not be null")
     @NotBlank(message = "BlogTitle should not be blank")
     private String blogTitle;
-    @NotNull(message = "BlogCategory should not be null")
-    @NotBlank(message = "BlogCategory should not be blank")
-    private String blogCategory;
     @NotNull(message = "BlogDescription should not be null")
     @NotBlank(message = "BlogDescription should not be blank")
     private String blogDescription;

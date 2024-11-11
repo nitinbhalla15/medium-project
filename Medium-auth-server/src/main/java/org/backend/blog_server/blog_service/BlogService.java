@@ -216,4 +216,36 @@ public class BlogService {
 
     }
 
+
+    public Map<String,Object> fetchBlogSearched(String param) throws UnidentifiedError {
+        try{
+            Map<String,Object> respponse = new HashMap<>();
+            List<BlogDetails> allBlogs = blogRepository.fetchBlogsByParam(param);
+            List<BlogDTO> allResponseBlog = new ArrayList<>();
+            if(allBlogs.size()>0){
+                allResponseBlog= allBlogs.stream()
+                        .map((item)->{
+                            BlogDTO resposneBlog = BlogDTO.builder().
+                                    blogId(item.getBlog_id()).
+                                    blogTitle(item.getBlogTitle())
+                                    .blogDescription(item.getBlogDescription())
+                                    .blogCategory(item.getBlogCategory())
+                                    .blogDate(item.getBlogDate())
+                                    .blogLikeCount(item.getBlogLikeCount())
+                                    .blogCommentCount(item.getBlogCommentCount())
+                                    .authorName(item.getUserDetails().getFirstName()+" "+item.getUserDetails().getLastName())
+                                    .authorEmail(item.getUserDetails().getEmail())
+                                    .build();
+                            return resposneBlog;
+                        }).toList();
+
+            }
+            respponse.put("responseBody",allResponseBlog);
+            return respponse;
+        }catch (Exception e){
+            log.error("Error while fetching blogs");
+            throw new UnidentifiedError(e.getMessage());
+        }
+    }
+
 }

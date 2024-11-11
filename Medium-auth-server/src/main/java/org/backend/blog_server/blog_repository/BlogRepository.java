@@ -14,5 +14,8 @@ public interface BlogRepository extends JpaRepository<BlogDetails, UUID> {
     @Query(nativeQuery = true,value = "Select * from blog_details order by blog_date desc")
     List<BlogDetails> findBlogsByDescendingDate();
 
+    @Query(nativeQuery = true,value = "Select * from blog_details where blog_title like %:param%")
+    List<BlogDetails> fetchBlogsByParam(String param);
+
 
 }
