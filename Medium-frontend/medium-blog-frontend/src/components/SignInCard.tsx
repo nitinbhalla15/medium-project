@@ -25,9 +25,6 @@ export default function SignInCard() {
                     setPassword(e.target.value)
                 }} type={"password"}></LabeledInput>
                 <CustomButton buttonName="Sign In" onBtnClick={async () => {
-                    //fetch  call to backend 
-                    // if succceed then redirect to dashboard
-                    // else alert in main window
                     try {
                         const reqBody = {
                             username: inputPayload.email,
@@ -42,13 +39,14 @@ export default function SignInCard() {
                             body: JSON.stringify(reqBody)
                         })
                         const finalResponse = await resposne.json();
-                        console.log("Response post sign in : ", finalResponse)
                         //set the user details post fetching it from backend 
                         if (finalResponse.http_status_code == 200) {
                             const logged_in_user_email = finalResponse.resposneBody.userEmail;
                             localStorage.setItem("logged_in_user_email", logged_in_user_email);
                             const jwtToken = finalResponse.resposneBody.jwtToken; 
                             localStorage.setItem("jwtToken", jwtToken);
+                            localStorage.setItem("uid",finalResponse.resposneBody.userId)
+                            localStorage.setItem("loggedInUserName",finalResponse.resposneBody.userName);
                             //alert on page for successfull log in 
                             setIsAlert(true);
                             setAlertMessage([finalResponse.message]);

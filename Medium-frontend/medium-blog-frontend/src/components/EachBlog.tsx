@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom"
 import { useSetRecoilState } from "recoil";
-import { blogDetails } from "../state-store/blog-store";
+import { blogDetails, isDashboardAtom } from "../state-store/blog-store";
 
 type BlogType = {
+    blogId:string,
     initial: string,
     name: string,
     blogTitle: string,
@@ -12,12 +13,15 @@ type BlogType = {
     commentCount: number
 }
 
-export default function EachBlog({ initial, name, blogDescription, blogTitle, date, likeCount, commentCount }: BlogType) {
+export default function EachBlog({blogId, initial, name, blogDescription, blogTitle, date, likeCount, commentCount }: BlogType) {
     const navigate = useNavigate();
     const setBlogState = useSetRecoilState(blogDetails);
+    const setIsDashboard = useSetRecoilState(isDashboardAtom);
     return <div className="border-b border-black hover:bg-slate-100 cursor-pointer p-6" onClick={() => {
-        //Redirect to standAlone blog page
+        //Redirect to standAlone blog page'
+        setIsDashboard(false)
         const blogAtom = {
+            blogId:blogId,
             initial:initial,
             name:name,
             blogDescription:blogDescription,
@@ -26,6 +30,7 @@ export default function EachBlog({ initial, name, blogDescription, blogTitle, da
             likeCount:likeCount,
             commentCount:commentCount
         }
+        console.log("Blog selected : ",blogAtom)
         setBlogState(blogAtom);
         navigate("/publishHouse");
     }}>

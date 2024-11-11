@@ -12,7 +12,7 @@ export default function PublishPost() {
     const setAlert = useSetRecoilState(isAlert);
     const setAlertMessage = useSetRecoilState(alertMessage);
     return <div>
-        <TopBar username={"Nitin"}></TopBar>
+        <TopBar></TopBar>
         <div className="p-4 flex justify-center my-12">
             <div className="flex flex-col max-w-2xl">
                 <input onChange={(e) => {
@@ -30,7 +30,7 @@ export default function PublishPost() {
                         Cancel
                     </div>
                     <div className={`${((postTitle != undefined && postDescription != undefined && postTitle.trim() != "" && postDescription.trim() != "") ? 'bg-black cursor-pointer' : 'bg-red-600 cursor-not-allowed')} text-white p-4 text-center rounded-md w-full`} onClick={() => {
-                        const postBlogPayload = { blogTitle: postTitle, blogDescription: postDescription, blogCategory: "Random Category" };
+                        const postBlogPayload = { blogTitle: postTitle, blogDescription: postDescription};
                         const loggedUser = localStorage.getItem("logged_in_user_email");
                         fetch(`${BACKEND_URL}/api/v1/blogServer/postBlog?uid=${loggedUser}`, {
                             method: "POST",

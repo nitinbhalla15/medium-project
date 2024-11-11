@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
 import EachBlog from "./EachBlog";
 import { BACKEND_URL } from "../env_store";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { alertMessage, isAlert } from "../state-store/alert-store";
+import { allBlogs, fileterdBlogsAtom, isDashboardAtom } from "../state-store/blog-store";
 
-interface BlogType {
-    blogId: string,
-    authorName: string,
-    blogTitle: string,
-    blogDescription: string,
-    blogDate: string,
-    blogLikeCount: number,
-    blogCommentCount: number
-}
 
 export default function DashboardBlog() {
     const setAlert = useSetRecoilState(isAlert);
     const setAlertMessage = useSetRecoilState(alertMessage);
-    const [allBlogs, setAllBlogs] = useState<BlogType[]>([]);
-
+    const [allBlogsBackend,setAllBlogs] = useRecoilState(allBlogs);
+    const setIsDashboard = useSetRecoilState(isDashboardAtom);
+    const allFilteredBlogs = useRecoilValue(fileterdBlogsAtom);
     useEffect(() => {
+        setIsDashboard(true);
         console.log("Dashboard Mounted to page")
         fetch(`${BACKEND_URL}/api/v1/blogServer/fetchAllBlogs`, {
             method: "GET",
@@ -56,10 +50,15 @@ export default function DashboardBlog() {
     return <div className="p-4">
         <div className="flex justify-center">
             <div className="max-w-4xl p-2  flex flex-col justify-center overflow-y-auto">
-                {allBlogs.length > 0 && allBlogs.map((blg) => {
+                {allFilteredBlogs!=undefined && allFilteredBlogs.length>0 && allFilteredBlogs.map((blg) => {
                     const authorNameArr = blg.authorName.split(' ');
                     const authorInitial = authorNameArr[0][0] + authorNameArr[1][0]
-                    return <EachBlog key={blg.blogId} initial={authorInitial} name={blg.authorName} blogTitle={blg.blogTitle} blogDescription={blg.blogDescription} date={blg.blogDate} likeCount={blg.blogLikeCount} commentCount={blg.blogCommentCount}></EachBlog>
+                    return <EachBlog key={blg.blogId} blogId={blg.blogId} initial={authorInitial} name={blg.authorName} blogTitle={blg.blogTitle} blogDescription={blg.blogDescription} date={blg.blogDate} likeCount={blg.blogLikeCount} commentCount={blg.blogCommentCount}></EachBlog>
+                })}
+                {allFilteredBlogs==undefined && allBlogsBackend!=undefined && allBlogsBackend.length > 0 && allBlogsBackend.map((blg) => {
+                    const authorNameArr = blg.authorName.split(' ');
+                    const authorInitial = authorNameArr[0][0] + authorNameArr[1][0]
+                    return <EachBlog key={blg.blogId} blogId={blg.blogId} initial={authorInitial} name={blg.authorName} blogTitle={blg.blogTitle} blogDescription={blg.blogDescription} date={blg.blogDate} likeCount={blg.blogLikeCount} commentCount={blg.blogCommentCount}></EachBlog>
                 })}
             </div>
         </div>

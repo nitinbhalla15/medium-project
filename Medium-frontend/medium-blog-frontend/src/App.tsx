@@ -7,6 +7,8 @@ import DashboardPage from './pages/DashboardPage'
 import AlertComponet from './components/AlertComponent'
 import PublishPost from './pages/PublishPostPage'
 import PublishHouse from './pages/PublishHouse'
+import { useSetRecoilState } from 'recoil'
+import { EmailIdAtom, FirstNameAtom, LastNameAtom, PasswordAtom } from './state-store/auth-store'
 
 function App() {
   return (
@@ -29,7 +31,15 @@ function App() {
 
 function RouteNotFound(){
   const navigate = useNavigate();
+  const setFirstName = useSetRecoilState(FirstNameAtom);
+  const setLastName = useSetRecoilState(LastNameAtom);
+  const setEmailId = useSetRecoilState(EmailIdAtom);
+  const setPassword = useSetRecoilState(PasswordAtom);
   return <div onClick={()=>{
+    setFirstName(undefined);
+    setLastName(undefined);
+    setEmailId(undefined);
+    setPassword(undefined);
     navigate("/signin")
   }}>
     Route not found
