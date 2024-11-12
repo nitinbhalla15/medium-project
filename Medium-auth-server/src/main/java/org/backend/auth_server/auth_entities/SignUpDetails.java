@@ -38,7 +38,7 @@ public class SignUpDetails implements UserDetails {
     private String lastName;
     @NotNull(message = "Email field should not be null")
     @NotBlank(message = "Email field should not be blank")
-    @Email(message = "Email field has to be a valid email id")
+    @Email(message = "Email field has to be a valid email id",regexp = "[A-Za-z0-9\\._%+\\-]+@[A-Za-z0-9\\.\\-]+\\.[A-Za-z]{2,}")
     @Column(unique = true)
     private String email;
     @NotBlank(message = "Password name should not be blank")

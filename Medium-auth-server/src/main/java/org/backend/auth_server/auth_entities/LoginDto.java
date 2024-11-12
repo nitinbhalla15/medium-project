@@ -17,7 +17,7 @@ public class LoginDto {
 
     @NotNull(message = "Username should not be null")
     @NotBlank(message = "Username should not be blank")
-    @Email(message = "Username should be a proper email address")
+    @Email(message = "Username should be a proper email address",regexp = "[A-Za-z0-9\\._%+\\-]+@[A-Za-z0-9\\.\\-]+\\.[A-Za-z]{2,}")
     private String username;
     @NotNull(message = "Username should not be null")
     @NotBlank(message = "Username should not be blank")

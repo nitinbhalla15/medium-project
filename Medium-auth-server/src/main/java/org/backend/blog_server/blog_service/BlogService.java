@@ -67,7 +67,7 @@ public class BlogService {
                                 blogId(item.getBlog_id()).
                                 blogTitle(item.getBlogTitle())
                                 .blogDescription(item.getBlogDescription())
-                                .blogCategory(item.getBlogCategory())
+//                                .blogCategory(item.getBlogCategory())
                                 .blogDate(item.getBlogDate())
                                 .blogLikeCount(item.getBlogLikeCount())
                                 .blogCommentCount(item.getBlogCommentCount())
@@ -141,8 +141,19 @@ public class BlogService {
                     .userDetails(userDetails)
                     .commentDate(new Date())
                     .build();
+            List<BlogComments> comments = blog.getBlogComments();
+            List<Map<String,Object>> commentList = new ArrayList<>();
             commentRepository.save(blogCommentObject);
-            response.put("responseBody", "Comment posted Successfully");
+            if(comments.size()>0){
+                commentList = comments.stream().map(item -> {
+                    Map<String,Object> cmntItem = new HashMap<>();
+                    cmntItem.put("commentDescription",item.getCommentDescription());
+                    cmntItem.put("commentDate",item.getCommentDate());
+                    cmntItem.put("userName",item.getUserDetails().getFirstName()+" "+item.getUserDetails().getLastName());
+                    return cmntItem;
+                }).toList();
+            }
+            response.put("responseBody", commentList);
             return response;
         }catch (Exception e){
             log.error("Error while posting comment on a post");
@@ -157,7 +168,7 @@ public class BlogService {
             BlogDTO responseBlog = BlogDTO.builder().blogTitle(blogDetails.getBlogTitle())
                     .blogId(blogDetails.getBlog_id())
                             .blogDescription(blogDetails.getBlogDescription())
-                                    .blogCategory(blogDetails.getBlogCategory())
+//                                    .blogCategory(blogDetails.getBlogCategory())
                                             .blogCommentCount(blogDetails.getBlogCommentCount())
                                                     .blogLikeCount(blogDetails.getBlogLikeCount())
                                                             .blogDate(blogDetails.getBlogDate())
@@ -229,7 +240,7 @@ public class BlogService {
                                     blogId(item.getBlog_id()).
                                     blogTitle(item.getBlogTitle())
                                     .blogDescription(item.getBlogDescription())
-                                    .blogCategory(item.getBlogCategory())
+//                                    .blogCategory(item.getBlogCategory())
                                     .blogDate(item.getBlogDate())
                                     .blogLikeCount(item.getBlogLikeCount())
                                     .blogCommentCount(item.getBlogCommentCount())
