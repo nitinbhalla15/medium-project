@@ -35,16 +35,23 @@ function RouteNotFound() {
   const setLastName = useSetRecoilState(LastNameAtom);
   const setEmailId = useSetRecoilState(EmailIdAtom);
   const setPassword = useSetRecoilState(PasswordAtom);
-  return <div onClick={() => {
-    setFirstName(undefined);
-    setLastName(undefined);
-    setEmailId(undefined);
-    setPassword(undefined);
-    navigate("/signin")
-  }} className='flex flex-col h-screen justify-center bg-slate-400'>
+  return <div className='flex flex-col h-screen justify-center bg-slate-400'>
     <div className='flex justify-center'>
-      <div className='w-1/2 h-96 bg-slate-800 text-center flex flex-col justify-center text-4xl font-bold text-white p-2 rounded-2xl'>
-        {`System.out.println("ERROR 404 ! NOT FOUND")`}
+      <div className='w-1/2 h-96 bg-slate-800 text-center flex flex-col justify-center  p-2 rounded-2xl'>
+        <div className='text-3xl font-bold text-white'>
+          {`System.out.println ("ERROR 404 ! ROUTE NOT FOUND") `}
+        </div>
+        <div className='text-black mt-10 text-xl flex justify-center'>
+          <div className='w-1/2 bg-white p-2 cursor-pointer' onClick={() => {
+            setFirstName(undefined);
+            setLastName(undefined);
+            setEmailId(undefined);
+            setPassword(undefined);
+            {(localStorage.getItem("jwtToken")!=undefined || localStorage.getItem("jwtToken")!=null)?navigate('/dashboard'):navigate('/signin')}
+          }} >
+            Take me home !
+          </div>
+        </div>
       </div>
     </div>
   </div>
