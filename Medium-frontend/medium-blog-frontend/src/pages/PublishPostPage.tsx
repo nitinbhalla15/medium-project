@@ -32,6 +32,7 @@ export default function PublishPost() {
                     <div className={`${((postTitle != undefined && postDescription != undefined && postTitle.trim() != "" && postDescription.trim() != "") ? 'bg-black cursor-pointer' : 'bg-red-600 cursor-not-allowed')} text-white p-4 text-center rounded-md w-full`} onClick={() => {
                         const postBlogPayload = { blogTitle: postTitle, blogDescription: postDescription};
                         const loggedUser = localStorage.getItem("logged_in_user_email");
+                        {(postBlogPayload.blogTitle==undefined || postBlogPayload.blogDescription==undefined)?null:
                         fetch(`${BACKEND_URL}/api/v1/blogServer/postBlog?uid=${loggedUser}`, {
                             method: "POST",
                             headers: {
@@ -62,7 +63,7 @@ export default function PublishPost() {
                                 }, 2000)
 
                             }
-                        })
+                        })}
                     }}>Publish Post</div>
                 </div>
             </div>
