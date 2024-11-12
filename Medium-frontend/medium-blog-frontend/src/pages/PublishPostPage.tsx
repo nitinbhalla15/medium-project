@@ -19,10 +19,10 @@ export default function PublishPost() {
                     setPostTitle(e.target.value);
                     console.log(postDescription);
                 }} className="p-4 border-l-4  text-6xl" placeholder="Title"></input>
-                <input onChange={(e) => {
+                <textarea onChange={(e) => {
                     setPostDescription(e.target.value);
                     console.log(postTitle);
-                }} className="p-4 text-2xl border-l-4 my-10" placeholder="Tell your story ..."></input>
+                }} className="p-4 text-2xl border-l-4 my-10 h-96" placeholder="Tell your story ..."></textarea>
                 <div className="flex gap-2">
                     <div className="bg-black cursor-pointer text-white p-4 text-center rounded-md w-full" onClick={() => {
                         navigate("/dashboard")
