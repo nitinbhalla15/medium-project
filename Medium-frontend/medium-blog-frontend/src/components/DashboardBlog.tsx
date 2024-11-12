@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import EachBlog from "./EachBlog";
 import { BACKEND_URL } from "../env_store";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";

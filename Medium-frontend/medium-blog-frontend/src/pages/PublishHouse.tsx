@@ -117,7 +117,7 @@ export default function PublishHouse() {
                                             if (commentCount != undefined) {
                                                 const newCommentCount = commentCount + 1;
                                                 return newCommentCount;
-                                            }
+                                            }``
                                         })
                                         setCommentAllowed(false);
                                         setComment(undefined);
@@ -195,7 +195,7 @@ function AllComments({ postId }: { postId: undefined | string }) {
         })
     }, [])
     return <div className="flex justify-center mt-10">
-        <div className="w-1/2 bg-slate-200 p-8 max-h-96 overflow-y-auto">
+        <div className="w-1/2 border-t-4 border-black p-8 max-h-96 overflow-y-auto">
             <div className="flex flex-col">
                 <div className="font-bold">All Comments</div>
                 {allComments!=undefined && allComments.length > 0 && allComments.map((item) => {

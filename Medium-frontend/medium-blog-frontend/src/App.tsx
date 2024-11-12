@@ -29,20 +29,24 @@ function App() {
   )
 }
 
-function RouteNotFound(){
+function RouteNotFound() {
   const navigate = useNavigate();
   const setFirstName = useSetRecoilState(FirstNameAtom);
   const setLastName = useSetRecoilState(LastNameAtom);
   const setEmailId = useSetRecoilState(EmailIdAtom);
   const setPassword = useSetRecoilState(PasswordAtom);
-  return <div onClick={()=>{
+  return <div onClick={() => {
     setFirstName(undefined);
     setLastName(undefined);
     setEmailId(undefined);
     setPassword(undefined);
     navigate("/signin")
-  }}>
-    Route not found
+  }} className='flex flex-col h-screen justify-center bg-slate-400'>
+    <div className='flex justify-center'>
+      <div className='w-1/2 h-96 bg-slate-800 text-center flex flex-col justify-center text-4xl font-bold text-white p-2 rounded-2xl'>
+        {`System.out.println("ERROR 404 ! NOT FOUND")`}
+      </div>
+    </div>
   </div>
 }
 

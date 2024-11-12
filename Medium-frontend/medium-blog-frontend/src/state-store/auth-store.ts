@@ -1,4 +1,4 @@
-import { atom, RecoilState, selector } from "recoil";
+import { atom,  selector } from "recoil";
 
 type InputAtomType = undefined | string;
 

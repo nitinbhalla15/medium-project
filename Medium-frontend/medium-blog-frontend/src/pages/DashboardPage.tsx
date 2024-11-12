@@ -1,5 +1,4 @@
 import DashboardBlog from "../components/DashboardBlog";
-import InterestCategorySection from "../components/InterestCategorySection";
 import TopBar from "../components/TopBar";
 
 export default function DashboardPage() {

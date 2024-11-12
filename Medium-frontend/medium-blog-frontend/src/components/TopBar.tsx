@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../env_store";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { alertMessage, isAlert } from "../state-store/alert-store";
-import { allBlogs, fileterdBlogsAtom, isDashboardAtom } from "../state-store/blog-store";
+import {  fileterdBlogsAtom, isDashboardAtom } from "../state-store/blog-store";
 import { EmailIdAtom, FirstNameAtom, LastNameAtom, PasswordAtom } from "../state-store/auth-store";
 
 export default function TopBar() {
     const navigate = useNavigate();
     const setAlert = useSetRecoilState(isAlert);
     const setAlertMessage = useSetRecoilState(alertMessage);
-    const setAllBlogs = useSetRecoilState(allBlogs);
+    // const setAllBlogs = useSetRecoilState(allBlogs);
     const isDashboard = useRecoilValue(isDashboardAtom);
     const setFirstName = useSetRecoilState(FirstNameAtom);
     const setLastName = useSetRecoilState(LastNameAtom);
