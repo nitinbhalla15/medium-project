@@ -5,7 +5,7 @@ import { BACKEND_URL } from "../env_store";
 import { alertMessage, isAlert } from "../state-store/alert-store";
 
 type BlogType = {
-    blogId:string
+    blogId: string
     initial: string,
     name: string,
     blogTitle: string,
@@ -17,25 +17,26 @@ type BlogType = {
 
 
 export default function PublishHouse() {
-    const [blog,setBlog] = useState<BlogType>();
+    const [blog, setBlog] = useState<BlogType>();
     const [blgLikeCount, setLikeCount] = useState(0);
     const [blgCommentCount, setCommentCount] = useState(0);
     const setAlert = useSetRecoilState(isAlert);
     const setAlertMessage = useSetRecoilState(alertMessage);
     const [isCommentAllowed, setCommentAllowed] = useState(false);
     const [comment, setComment] = useState<undefined | string>();
-    useEffect(()=>{
-        fetch(`${BACKEND_URL}/api/v1/blogServer/getBlogById?pid=${localStorage.getItem("selectedBlogId")}`,{
-            method:"GET",
-            headers:{
-                "Content-Type":"application/json",
-                "Authorization":`Bearer ${localStorage.getItem("jwtToken")}`
+    const [isLikesVisible,setIsLikeVisible] = useState(false);
+    useEffect(() => {
+        fetch(`${BACKEND_URL}/api/v1/blogServer/getBlogById?pid=${localStorage.getItem("selectedBlogId")}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
             }
-        }).then(async(response)=>{
+        }).then(async (response) => {
             const finalResponse = await response.json();
-            console.log("Blog by id : ",finalResponse)
+            console.log("Blog by id : ", finalResponse)
             const currnetBlog = {
-                blogId:finalResponse.resposneBody.responseBody.blogId,
+                blogId: finalResponse.resposneBody.responseBody.blogId,
                 initial: finalResponse.resposneBody.responseBody.authorName[0],
                 name: finalResponse.resposneBody.responseBody.authorName,
                 blogTitle: finalResponse.resposneBody.responseBody.blogTitle,
@@ -48,7 +49,7 @@ export default function PublishHouse() {
             setCommentCount(currnetBlog.commentCount);
             setBlog(currnetBlog)
         })
-    },[])
+    }, [])
     return <div>
         <TopBar></TopBar>
         <div className="flex justify-center pt-4">
@@ -69,8 +70,12 @@ export default function PublishHouse() {
                 </div>
                 <div className="flex justify-between border-slate-500 border-t border-b p-2  my-4">
                     <div className="flex gap-4">
-                        <div className="flex flex-col justify-center bg-green-300 p-2 rounded-md font-bold cursor-pointer">Likes : {blgLikeCount}</div>
-                        <div className="flex flex-col justify-center bg-blue-200 p-2 rounded-md font-bold cursor-pointer">Comments :  {blgCommentCount}</div>
+                        <div className="flex flex-col justify-center bg-green-300 p-2 rounded-md font-bold cursor-pointer" onClick={()=>{
+                            setIsLikeVisible(true);
+                        }}>Likes : {blgLikeCount}</div>
+                        <div className="flex flex-col justify-center bg-blue-200 p-2 rounded-md font-bold cursor-pointer" onClick={()=>{
+                            setIsLikeVisible(false);
+                        }}>Comments :  {blgCommentCount}</div>
                     </div>
                     <div className="flex gap-4">
                         <div className="font-bold flex flex-col justify-center bg-green-300 p-2 rounded-md cursor-pointer" onClick={() => {
@@ -90,7 +95,7 @@ export default function PublishHouse() {
                                         setAlert(undefined);
                                         setAlertMessage(undefined);
                                     }, 2000)
-                                    setLikeCount((like)=>like+1);
+                                    setLikeCount((like) => like + 1);
 
                                 } else {
                                     setAlert(false);
@@ -143,7 +148,7 @@ export default function PublishHouse() {
                                             setAlert(undefined);
                                             setAlertMessage(undefined);
                                         }, 2000);
-                                        setCommentCount((cmnt)=>cmnt+1)
+                                        setCommentCount((cmnt) => cmnt + 1)
                                         setCommentAllowed(false);
                                         setComment(undefined);
                                     } else {
@@ -174,7 +179,8 @@ export default function PublishHouse() {
                 </div>
             </div>
         </div>
-        {(blgCommentCount != undefined && blgCommentCount > 0) && <AllComments postId={blog?.blogId}></AllComments>}
+        {(isLikesVisible==false && blgCommentCount != undefined && blgCommentCount > 0) && <AllComments postId={blog?.blogId}></AllComments>}
+        {(isLikesVisible==true && blgLikeCount != undefined && blgLikeCount > 0) && <AllLikes postId={blog?.blogId}></AllLikes>}
     </div>
 }
 
@@ -182,6 +188,60 @@ interface CommentType {
     userName: string,
     commentDescription: string,
     commentDate: string
+}
+
+
+function AllLikes({ postId }: { postId: undefined | string }) {
+    const [allLikes, setAllLikes] = useState<string[]>();
+    const setAlert = useSetRecoilState(isAlert);
+    const setAlertMessage = useSetRecoilState(alertMessage);
+    useEffect(() => {
+        fetch(`${BACKEND_URL}/api/v1/blogServer/fetchLikes?pid=${postId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            }
+        }).then(async (response) => {
+            const finalResponse = await response.json();
+            if (finalResponse.http_status_code == 200) {
+                const allBlogComments = finalResponse.resposneBody.responseBody;
+                setAllLikes(allBlogComments);
+                setAlert(true);
+                setAlertMessage([`${finalResponse.message}`]);
+                setTimeout(() => {
+                    setAlert(undefined);
+                    setAlertMessage(undefined);
+                }, 2000);
+            } else {
+                setAlert(false);
+                setAlertMessage([`${finalResponse.message}`]);
+                setTimeout(() => {
+                    setAlert(undefined);
+                    setAlertMessage(undefined);
+                }, 2000);
+            }
+        })
+    }, [])
+    return <div className="flex justify-center mt-10">
+        <div className="w-1/2 border-t-4 border-black p-8 max-h-96 overflow-y-auto">
+            <div className="flex flex-col">
+                <div className="font-bold">All Likes</div>
+                {allLikes != undefined && allLikes.length > 0 && allLikes.map((item) => {
+                    return <div className="flex flex-col p-2 gap-2 bg-black text-white mt-2 rounded-2xl">
+                        <div className="flex gap-2">
+                            <div className="flex flex-col justify-center">
+                                <div className="flex flex-col justify-center">
+                                        {item} 
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                })}
+            </div>
+        </div>
+    </div>
 }
 
 
@@ -223,7 +283,7 @@ function AllComments({ postId }: { postId: undefined | string }) {
         <div className="w-1/2 border-t-4 border-black p-8 max-h-96 overflow-y-auto">
             <div className="flex flex-col">
                 <div className="font-bold">All Comments</div>
-                {allComments!=undefined && allComments.length > 0 && allComments.map((item) => {
+                {allComments != undefined && allComments.length > 0 && allComments.map((item) => {
                     return <div>
                         <EachComment userName={item.userName} commentDescription={item.commentDescription} commentDate={item.commentDate}  ></EachComment>
                     </div>
@@ -233,14 +293,14 @@ function AllComments({ postId }: { postId: undefined | string }) {
     </div>
 }
 
-function EachComment({userName, commentDescription, commentDate }: CommentType) {
+function EachComment({ userName, commentDescription, commentDate }: CommentType) {
     return <div className="flex flex-col p-2 gap-2 bg-black text-white mt-2 rounded-2xl">
         <div className="flex gap-2">
             {/* <div className="flex flex-col justify-center bg-black text-white rounded-full p-4">{authorName[0]}</div> */}
             <div className="flex flex-col justify-center">
                 <div className="flex flex-col justify-center">
                     <div>
-                    @ {userName} : {commentDescription}
+                        @ {userName} : {commentDescription}
                     </div>
                 </div>
                 <div className="flex flex-col justify-center text-sm text-slate-500">
@@ -248,7 +308,7 @@ function EachComment({userName, commentDescription, commentDate }: CommentType) 
                 </div>
             </div>
         </div>
-       
+
     </div>
 
 }
