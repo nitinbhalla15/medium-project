@@ -142,6 +142,7 @@ public class BlogService {
                     .commentDate(new Date())
                     .build();
             List<BlogComments> comments = blog.getBlogComments();
+            comments.add(blogCommentObject);
             List<Map<String,Object>> commentList = new ArrayList<>();
             commentRepository.save(blogCommentObject);
             if(comments.size()>0){

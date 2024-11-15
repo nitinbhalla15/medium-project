@@ -25,6 +25,7 @@ export default function PublishHouse() {
     const [isCommentAllowed, setCommentAllowed] = useState(false);
     const [comment, setComment] = useState<undefined | string>();
     const [isLikesVisible,setIsLikeVisible] = useState(false);
+    const [allComments, setAllComments] = useState<CommentType[]|undefined>();
     useEffect(() => {
         fetch(`${BACKEND_URL}/api/v1/blogServer/getBlogById?pid=${localStorage.getItem("selectedBlogId")}`, {
             method: "GET",
@@ -149,6 +150,7 @@ export default function PublishHouse() {
                                             setAlertMessage(undefined);
                                         }, 2000);
                                         setCommentCount((cmnt) => cmnt + 1)
+                                        setAllComments(finalResposne.resposneBody.responseBody);
                                         setCommentAllowed(false);
                                         setComment(undefined);
                                     } else {
@@ -158,6 +160,7 @@ export default function PublishHouse() {
                                             setAlert(undefined);
                                             setAlertMessage(undefined);
                                         }, 2000);
+                                        setComment(undefined);
                                     }
                                 })
                             } else {
@@ -179,7 +182,8 @@ export default function PublishHouse() {
                 </div>
             </div>
         </div>
-        {(isLikesVisible==false && blgCommentCount != undefined && blgCommentCount > 0) && <AllComments postId={blog?.blogId}></AllComments>}
+        {(isLikesVisible==false && blgCommentCount != undefined && blgCommentCount > 0) && <AllComments postId={blog?.blogId} allBlogComments={allComments} 
+        setBlogAllComments={setAllComments}></AllComments>}
         {(isLikesVisible==true && blgLikeCount != undefined && blgLikeCount > 0) && <AllLikes postId={blog?.blogId}></AllLikes>}
     </div>
 }
@@ -246,8 +250,10 @@ function AllLikes({ postId }: { postId: undefined | string }) {
 
 
 
-function AllComments({ postId }: { postId: undefined | string }) {
-    const [allComments, setAllComments] = useState<CommentType[]>();
+function AllComments({ postId,allBlogComments,setBlogAllComments }: { postId: undefined | string,allBlogComments:CommentType[]|undefined,
+    setBlogAllComments:React.Dispatch<React.SetStateAction<CommentType[] | undefined>>
+ }) {
+    // const [allComments, setAllComments] = useState<CommentType[]>();
     const setAlert = useSetRecoilState(isAlert);
     const setAlertMessage = useSetRecoilState(alertMessage);
     useEffect(() => {
@@ -261,8 +267,8 @@ function AllComments({ postId }: { postId: undefined | string }) {
             const finalResponse = await response.json();
             if (finalResponse.http_status_code == 200) {
                 const allBlogComments = finalResponse.resposneBody.responseBody;
-                setAllComments(allBlogComments);
-                console.log("all comments : ", allComments)
+                setBlogAllComments(allBlogComments);
+                console.log("all comments : ", allBlogComments)
                 setAlert(true);
                 setAlertMessage([`${finalResponse.message}`]);
                 setTimeout(() => {
@@ -283,7 +289,7 @@ function AllComments({ postId }: { postId: undefined | string }) {
         <div className="w-1/2 border-t-4 border-black p-8 max-h-96 overflow-y-auto">
             <div className="flex flex-col">
                 <div className="font-bold">All Comments</div>
-                {allComments != undefined && allComments.length > 0 && allComments.map((item) => {
+                {allBlogComments != undefined && allBlogComments.length > 0 && allBlogComments.map((item) => {
                     return <div>
                         <EachComment userName={item.userName} commentDescription={item.commentDescription} commentDate={item.commentDate}  ></EachComment>
                     </div>
