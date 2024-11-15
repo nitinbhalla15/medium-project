@@ -39,7 +39,8 @@ export default function EachBlog({blogId, initial, name, blogDescription, blogTi
         </div>
         <div className="flex gap-4  font-bold">
             <div>
-                Posted On : {date}
+
+                Posted On : {`${new Date(date).toDateString()}`}
             </div>
             <div className="text-amber-600">
                 Likes Count : {likeCount}

@@ -1,7 +1,6 @@
 package org.backend.blog_server.blog_controller;
 
 import jakarta.validation.Valid;
-import jakarta.ws.rs.GET;
 import org.backend.app_exception_handler.UnidentifiedError;
 import org.backend.auth_server.auth_entities.ResponseDto;
 import org.backend.blog_server.blog_dtos.CommentDTO;

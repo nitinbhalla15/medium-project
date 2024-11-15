@@ -65,7 +65,7 @@ export default function PublishHouse() {
                             {blog?.name}
                         </div>
                         <div className="flex flex-col justify-center text-sm text-slate-500">
-                            {blog?.date}
+                        {blog?.date!=undefined?`${new Date(blog?.date).toDateString()}`:null}
                         </div>
                     </div>
                 </div>
@@ -310,7 +310,7 @@ function EachComment({ userName, commentDescription, commentDate }: CommentType)
                     </div>
                 </div>
                 <div className="flex flex-col justify-center text-sm text-slate-500">
-                    {commentDate}
+                    {`${new Date(commentDate).toDateString()}`}
                 </div>
             </div>
         </div>
