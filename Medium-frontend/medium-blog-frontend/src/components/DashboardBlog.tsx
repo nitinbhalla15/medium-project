@@ -44,7 +44,7 @@ export default function DashboardBlog() {
             }
         })
         return () => {
-            console.log("Dashboard unmounter to page")
+            console.log("Dashboard unmounted page")
         }
     }, [])
     return <div className="p-4">

@@ -1,18 +1,54 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import TopBar from "../components/TopBar";
-import { blogDetails } from "../state-store/blog-store";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../env_store";
 import { alertMessage, isAlert } from "../state-store/alert-store";
 
+type BlogType = {
+    blogId:string
+    initial: string,
+    name: string,
+    blogTitle: string,
+    blogDescription: string,
+    date: string,
+    likeCount: number,
+    commentCount: number
+}
+
+
 export default function PublishHouse() {
-    const blog = useRecoilValue(blogDetails);
-    const [likeCount, setLikeCount] = useState(blog?.likeCount);
-    const [commentCount, setCommentCount] = useState(blog?.commentCount);
+    const [blog,setBlog] = useState<BlogType>();
+    const [blgLikeCount, setLikeCount] = useState(0);
+    const [blgCommentCount, setCommentCount] = useState(0);
     const setAlert = useSetRecoilState(isAlert);
     const setAlertMessage = useSetRecoilState(alertMessage);
     const [isCommentAllowed, setCommentAllowed] = useState(false);
     const [comment, setComment] = useState<undefined | string>();
+    useEffect(()=>{
+        fetch(`${BACKEND_URL}/api/v1/blogServer/getBlogById?pid=${localStorage.getItem("selectedBlogId")}`,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${localStorage.getItem("jwtToken")}`
+            }
+        }).then(async(response)=>{
+            const finalResponse = await response.json();
+            console.log("Blog by id : ",finalResponse)
+            const currnetBlog = {
+                blogId:finalResponse.resposneBody.responseBody.blogId,
+                initial: finalResponse.resposneBody.responseBody.authorName[0],
+                name: finalResponse.resposneBody.responseBody.authorName,
+                blogTitle: finalResponse.resposneBody.responseBody.blogTitle,
+                blogDescription: finalResponse.resposneBody.responseBody.blogDescription,
+                date: finalResponse.resposneBody.responseBody.blogDate,
+                likeCount: finalResponse.resposneBody.responseBody.blogLikeCount,
+                commentCount: finalResponse.resposneBody.responseBody.blogCommentCount
+            }
+            setLikeCount(currnetBlog.likeCount);
+            setCommentCount(currnetBlog.commentCount);
+            setBlog(currnetBlog)
+        })
+    },[])
     return <div>
         <TopBar></TopBar>
         <div className="flex justify-center pt-4">
@@ -21,7 +57,7 @@ export default function PublishHouse() {
                     {blog?.blogTitle}
                 </div>
                 <div className="flex p-2 gap-2 my-8">
-                    <div className="flex flex-col justify-center bg-black text-white rounded-full p-4">N</div>
+                    <div className="flex flex-col justify-center bg-black text-white rounded-full p-4">{blog?.initial}</div>
                     <div className="flex flex-col justify-center">
                         <div className="flex flex-col justify-center">
                             {blog?.name}
@@ -33,8 +69,8 @@ export default function PublishHouse() {
                 </div>
                 <div className="flex justify-between border-slate-500 border-t border-b p-2  my-4">
                     <div className="flex gap-4">
-                        <div className="flex flex-col justify-center bg-green-300 p-2 rounded-md font-bold cursor-pointer">Likes : {likeCount}</div>
-                        <div className="flex flex-col justify-center bg-blue-200 p-2 rounded-md font-bold cursor-pointer">Comments :  {commentCount}</div>
+                        <div className="flex flex-col justify-center bg-green-300 p-2 rounded-md font-bold cursor-pointer">Likes : {blgLikeCount}</div>
+                        <div className="flex flex-col justify-center bg-blue-200 p-2 rounded-md font-bold cursor-pointer">Comments :  {blgCommentCount}</div>
                     </div>
                     <div className="flex gap-4">
                         <div className="font-bold flex flex-col justify-center bg-green-300 p-2 rounded-md cursor-pointer" onClick={() => {
@@ -54,12 +90,7 @@ export default function PublishHouse() {
                                         setAlert(undefined);
                                         setAlertMessage(undefined);
                                     }, 2000)
-                                    setLikeCount(() => {
-                                        if (likeCount != undefined) {
-                                            const newLikeCount = likeCount + 1;
-                                            return newLikeCount;
-                                        }
-                                    })
+                                    setLikeCount((like)=>like+1);
 
                                 } else {
                                     setAlert(false);
@@ -73,7 +104,6 @@ export default function PublishHouse() {
 
                         }}>Like Post</div>
                         <div className="font-bold flex flex-col justify-center bg-blue-200 p-2 rounded-md cursor-pointer" onClick={() => {
-                            //Open model from right to add comment 
                             setCommentAllowed(true);
                         }}>Add Comment</div>
                     </div>
@@ -113,12 +143,7 @@ export default function PublishHouse() {
                                             setAlert(undefined);
                                             setAlertMessage(undefined);
                                         }, 2000);
-                                        setCommentCount(() => {
-                                            if (commentCount != undefined) {
-                                                const newCommentCount = commentCount + 1;
-                                                return newCommentCount;
-                                            }``
-                                        })
+                                        setCommentCount((cmnt)=>cmnt+1)
                                         setCommentAllowed(false);
                                         setComment(undefined);
                                     } else {
@@ -149,7 +174,7 @@ export default function PublishHouse() {
                 </div>
             </div>
         </div>
-        {(commentCount != undefined && commentCount > 0) && <AllComments postId={blog?.blogId}></AllComments>}
+        {(blgCommentCount != undefined && blgCommentCount > 0) && <AllComments postId={blog?.blogId}></AllComments>}
     </div>
 }
 

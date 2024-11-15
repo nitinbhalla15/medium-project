@@ -40,3 +40,8 @@ export const isDashboardAtom =atom<undefined|boolean>({
     key:"isDashboardAtom",
     default:undefined
 })
+
+export const blogIdAtom = atom<undefined|string>({
+    key:"blogIdAtom",
+    default:undefined
+})

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { useSetRecoilState } from "recoil";
-import { blogDetails, isDashboardAtom } from "../state-store/blog-store";
+import { blogDetails, blogIdAtom, isDashboardAtom } from "../state-store/blog-store";
+import { getSearchParamsForLocation } from "react-router-dom/dist/dom";
 
 type BlogType = {
     blogId:string,
@@ -15,23 +16,11 @@ type BlogType = {
 
 export default function EachBlog({blogId, initial, name, blogDescription, blogTitle, date, likeCount, commentCount }: BlogType) {
     const navigate = useNavigate();
-    const setBlogState = useSetRecoilState(blogDetails);
     const setIsDashboard = useSetRecoilState(isDashboardAtom);
     return <div className="border-b border-black hover:bg-slate-100 cursor-pointer p-6" onClick={() => {
         //Redirect to standAlone blog page'
         setIsDashboard(false)
-        const blogAtom = {
-            blogId:blogId,
-            initial:initial,
-            name:name,
-            blogDescription:blogDescription,
-            blogTitle:blogTitle,
-            date:date,
-            likeCount:likeCount,
-            commentCount:commentCount
-        }
-        console.log("Blog selected : ",blogAtom)
-        setBlogState(blogAtom);
+        localStorage.setItem("selectedBlogId",blogId);
         navigate("/publishHouse");
     }}>
         <div className="flex gap-4">

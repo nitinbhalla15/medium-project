@@ -168,6 +168,7 @@ public class BlogService {
             BlogDTO responseBlog = BlogDTO.builder().blogTitle(blogDetails.getBlogTitle())
                     .blogId(blogDetails.getBlog_id())
                             .blogDescription(blogDetails.getBlogDescription())
+//                    .blogCommentsList(blogDetails.getBlogComments())
 //                                    .blogCategory(blogDetails.getBlogCategory())
                                             .blogCommentCount(blogDetails.getBlogCommentCount())
                                                     .blogLikeCount(blogDetails.getBlogLikeCount())
