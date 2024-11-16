@@ -1,82 +1,26 @@
-# Medium-auth-server serverless API
+# Medium-backend-server serverless  (Hosted on AWS ServerLess Lambda)
 The Medium-auth-server project, created with [`aws-serverless-java-container`](https://github.com/aws/serverless-java-container).
 
-The starter project defines a simple `/ping` resource that can accept `GET` requests with its tests.
 
 The project folder also includes a `template.yml` file. You can use this [SAM](https://github.com/awslabs/serverless-application-model) file to deploy the project to AWS Lambda and Amazon API Gateway or test in local with the [SAM CLI](https://github.com/awslabs/aws-sam-cli). 
 
-## Pre-requisites
-* [AWS CLI](https://aws.amazon.com/cli/)
-* [SAM CLI](https://github.com/awslabs/aws-sam-cli)
-* [Gradle](https://gradle.org/) or [Maven](https://maven.apache.org/)
+# Concepts / Frameworks / Library used in backend :
+* # Input Validation:
+    * Jakarta Validation with custom Exception Handling with Controller Advisors 
+* # Authentication:
+    * Once the inputs has been validated positively next comes the authentication bit  
+    * Spring Security has been used to configure authentication across the routes 
+    * Custom Filters (using filter class (OncePerRequestFilter)) to check if the jwtToken has been sent along with the blacklisted apis and then checking the authentication with authentication manager using authManager and  DaoAuthenticationProvider
+    * [`io.jsonwebtoken`] library used for creating jwtTokens with custom claims
+*  # Database Design for [`users`,`blogs`,`likes`,`comments`]
+    *  Users -> One to Many with Blogs 
+    *  Users -> One to Many with Likes
+    *  Users -> One to Many with Comments
+    *  Blogs -> One to many with Likes
+    *  Blogs -> One to Many with comments
 
-## Building the project
-You can use the SAM CLI to quickly build the project
-```bash
-$ mvn archetype:generate -DartifactId=Medium-auth-server -DarchetypeGroupId=com.amazonaws.serverless.archetypes -DarchetypeArtifactId=aws-serverless-jersey-archetype -DarchetypeVersion=2.0.3 -DgroupId=org.backend -Dversion=1.0-SNAPSHOT -Dinteractive=false
-$ cd Medium-auth-server
-$ sam build
-Building resource 'MediumAuthServerFunction'
-Running JavaGradleWorkflow:GradleBuild
-Running JavaGradleWorkflow:CopyArtifacts
 
-Build Succeeded
-
-Built Artifacts  : .aws-sam/build
-Built Template   : .aws-sam/build/template.yaml
-
-Commands you can use next
-=========================
-[*] Invoke Function: sam local invoke
-[*] Deploy: sam deploy --guided
-```
-
-## Testing locally with the SAM CLI
-
-From the project root folder - where the `template.yml` file is located - start the API with the SAM CLI.
-
-```bash
-$ sam local start-api
-
-...
-Mounting com.amazonaws.serverless.archetypes.StreamLambdaHandler::handleRequest (java11) at http://127.0.0.1:3000/{proxy+} [OPTIONS GET HEAD POST PUT DELETE PATCH]
-...
-```
-
-Using a new shell, you can send a test ping request to your API:
-
-```bash
-$ curl -s http://127.0.0.1:3000/ping | python -m json.tool
-
-{
-    "pong": "Hello, World!"
-}
-``` 
-
-## Deploying to AWS
-To deploy the application in your AWS account, you can use the SAM CLI's guided deployment process and follow the instructions on the screen
-
-```
-$ sam deploy --guided
-```
-
-Once the deployment is completed, the SAM CLI will print out the stack's outputs, including the new application URL. You can use `curl` or a web browser to make a call to the URL
-
-```
-...
--------------------------------------------------------------------------------------------------------------
-OutputKey-Description                        OutputValue
--------------------------------------------------------------------------------------------------------------
-MediumAuthServerApi - URL for application            https://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/pets
--------------------------------------------------------------------------------------------------------------
-```
-
-Copy the `OutputValue` into a browser or use curl to test your first request:
-
-```bash
-$ curl -s https://xxxxxxx.execute-api.us-west-2.amazonaws.com/Prod/ping | python -m json.tool
-
-{
-    "pong": "Hello, World!"
-}
-```
+# Concepts / Frameworks / Library used in frontend :
+* # React
+* # For routing : React Router DOM
+* # State Management : Recoil State Management

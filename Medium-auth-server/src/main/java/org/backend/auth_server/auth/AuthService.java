@@ -33,12 +33,12 @@ public class AuthService {
 
     public Map<String,Object> signupUser(SignUpDetails userDetail) throws UnidentifiedError {
         try {
-            log.info("Registering user");
+            log.info("Registering new user");
             Map<String, Object> responseObject = new HashMap<>();
             SignUpDetails encodedUser = SignUpDetails.builder()
                     .email(userDetail.getUsername())
                     .firstName(userDetail.getFirstName())
-                    .lastName(userDetail.getFirstName())
+                    .lastName(userDetail.getLastName())
                     .password(passwordEncoder.encode(userDetail.getPassword())).build();
             //saving the user Details in DB
             authRepo.save(encodedUser);

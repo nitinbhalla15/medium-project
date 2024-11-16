@@ -26,7 +26,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String,Object> errResponse = new HashMap<>();
         List<String> errors = new ArrayList<>();
         ex.getBindingResult().getFieldErrors().forEach((err)->{
-            errors.add(err.getField()+" -> "+err.getDefaultMessage());
+            errors.add(err.getField()+" : "+err.getDefaultMessage());
         });
         errResponse.put("errorList",errors);
         ResponseDto errorResponse = ResponseDto.builder()
@@ -63,7 +63,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         errors.add(ex.getMessage());
         errResponse.put("errorList",errors);
         ResponseDto errorResponse = ResponseDto.builder()
-                .http_status_code(500).resposneBody(errResponse).message("Internal Server Error").build();
+                .http_status_code(500).resposneBody(errResponse).message("Application facing some challenges , kindly try again afte sometime !").build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

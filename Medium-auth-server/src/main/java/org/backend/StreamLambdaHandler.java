@@ -15,9 +15,11 @@ import java.io.OutputStream;
 
 @Slf4j
 public class StreamLambdaHandler implements RequestStreamHandler {
+
     private static SpringBootLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
+
     static {
-        log.info("Hey there from streamLambdaHandler");
+        log.info("StreamLambdaHandler called ...");
         try {
             handler = SpringBootLambdaContainerHandler.getAwsProxyHandler(Application.class);
         } catch (ContainerInitializationException e) {

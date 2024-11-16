@@ -21,7 +21,6 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    //Auth Routes -> Sign up and Login
     @PostMapping(value = "/signup")
     public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpDetails userDetails) throws UnidentifiedError {
         ResponseDto resposne = ResponseDto.builder().http_status_code(200).message("User has been successfully registered")
